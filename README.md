@@ -1,1 +1,1 @@
-# nvr-pi
+# nvr-rpi
