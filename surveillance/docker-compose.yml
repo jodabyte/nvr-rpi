@@ -1,0 +1,33 @@
+name: nvr_surveillance
+
+services:
+  frigate:
+    container_name: frigate
+    restart: unless-stopped
+    stop_grace_period: 30s # allow enough time to shut down the various services
+    image: ghcr.io/blakeblackshear/frigate:0.15.0-beta3-h8l
+    shm_size: "128mb" # update for your cameras based on calculation above
+    devices:
+      - /dev/hailo0:/dev/hailo0
+      - /dev/dri/renderD128:/dev/dri/renderD128
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ./config:/config
+      - storage:/media/frigate
+      - type: tmpfs # Optional: 1GB of memory, reduces SSD/SD Card wear
+        target: /tmp/cache
+        tmpfs:
+          size: 1000000000
+    ports:
+      - "8971:8971"
+      - "5000:5000" # HA unauthenticated access
+      - "8554:8554" # RTSP feeds
+      - "8555:8555/tcp" # WebRTC 
+      - "8555:8555/udp" # WebRTC 
+    env_file:
+      - default.env
+
+volumes:
+  storage:
+    external: true
+    name: nextcloud_surveillance

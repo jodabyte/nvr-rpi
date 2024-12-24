@@ -1,0 +1,69 @@
+version: 0.15-0
+
+mqtt:
+  enabled: true
+  host: "{FRIGATE_MQTT_HOST}"
+  user: "{FRIGATE_MQTT_USER}"
+  password: "{FRIGATE_MQTT_PW}"
+
+
+detectors:
+  hailo8l:
+    type: hailo8l
+    device: PCIe
+
+model:
+  path: /config/model_cache/h8l_cache/ssd_mobilenet_v1.hef
+  width: 300
+  height: 300
+  input_tensor: nhwc
+  input_pixel_format: bgr
+  model_type: ssd
+
+ffmpeg:
+  hwaccel_args: preset-rpi-64-h264
+
+record:
+  enabled : true
+  sync_recordings: true
+  alerts:
+    retain:
+      days: 60
+      mode: motion
+
+go2rtc:
+  streams:
+    e1_zoom:
+      - rtsp://{FRIGATE_E1_ZOOM_USER}:{FRIGATE_E1_ZOOM_PW}@{FRIGATE_E1_ZOOM_IP}:554/Preview_01_main
+      - ffmpeg:e1_zoom#video=copy#audio=copy#audio=opus"
+    e1_zoom_sub:
+      - rtsp://{FRIGATE_E1_ZOOM_USER}:{FRIGATE_E1_ZOOM_PW}@{FRIGATE_E1_ZOOM_IP}:554/Preview_01_sub
+
+cameras:
+  e1_zoom:
+    ffmpeg:
+      inputs:
+        - path: rtsp://127.0.0.1:8554/e1_zoom
+          input_args: preset-rtsp-restream
+          roles:
+            - record
+        - path: rtsp://127.0.0.1:8554/e1_zoom_sub
+          input_args: preset-rtsp-restream
+          roles:
+            - detect
+      output_args:
+        record: preset-record-generic-audio-copy
+    detect:
+      enabled: true 
+      width: 680
+      height: 480
+      fps: 7
+    objects:
+      track:
+        - person
+    
+
+
+
+
+
