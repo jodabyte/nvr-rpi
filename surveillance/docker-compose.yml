@@ -5,7 +5,7 @@ services:
     container_name: frigate
     restart: unless-stopped
     stop_grace_period: 30s # allow enough time to shut down the various services
-    image: ghcr.io/blakeblackshear/frigate:0.15.0-beta3-h8l
+    image: ghcr.io/blakeblackshear/frigate:0.15.0-beta4-h8l
     shm_size: "128mb" # update for your cameras based on calculation above
     devices:
       - /dev/hailo0:/dev/hailo0
