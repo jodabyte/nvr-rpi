@@ -2,9 +2,9 @@ version: 0.15-0
 
 mqtt:
   enabled: true
-  host: "{FRIGATE_MQTT_HOST}"
+  host: <mqtt_host_ip>
   user: "{FRIGATE_MQTT_USER}"
-  password: "{FRIGATE_MQTT_PW}"
+  password: "{FRIGATE_MQTT_PASSWORD}"
 
 detectors:
   hailo8l:
@@ -22,6 +22,9 @@ model:
 
 ffmpeg:
   hwaccel_args: preset-rpi-64-h264 # reolink verwendet H.264
+
+detect:
+  enabled: true
 
 record:
   enabled: true
