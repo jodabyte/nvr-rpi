@@ -6,25 +6,25 @@ mqtt:
   user: "{FRIGATE_MQTT_USER}"
   password: "{FRIGATE_MQTT_PW}"
 
-
 detectors:
   hailo8l:
     type: hailo8l
     device: PCIe
 
 model:
-  width: 300
-  height: 300
+  width: 320
+  height: 320
   input_tensor: nhwc
-  input_pixel_format: bgr
-  model_type: ssd
-  path: /config/model_cache/h8l_cache/ssd_mobilenet_v1.hef
+  input_pixel_format: rgb
+  input_dtype: int
+  model_type: yolo-generic
+  labelmap_path: /labelmap/coco-80.txt
 
 ffmpeg:
   hwaccel_args: preset-rpi-64-h264 # reolink verwendet H.264
 
 record:
-  enabled : true
+  enabled: true
   sync_recordings: true
   alerts:
     retain:
@@ -54,7 +54,7 @@ cameras:
       output_args:
         record: preset-record-generic-audio-copy
     detect:
-      enabled: true 
+      enabled: true
       width: 680
       height: 480
       fps: 7
