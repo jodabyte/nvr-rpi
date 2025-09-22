@@ -1,10 +1,10 @@
-version: 0.15-0
+version: 0.16-0
 
 mqtt:
   enabled: true
   host: <mqtt_host_ip>
-  user: "{FRIGATE_MQTT_USER}"
-  password: "{FRIGATE_MQTT_PASSWORD}"
+  user: '{FRIGATE_MQTT_USER}'
+  password: '{FRIGATE_MQTT_PASSWORD}'
 
 detectors:
   hailo8l:
